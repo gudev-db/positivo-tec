@@ -184,7 +184,7 @@ with tab_aprovacao:
                 st.subheader("Versão Validada")
                 st.markdown(resposta.text)
 
-    with tab_geracao:
+with tab_geracao:
         st.header("Criação de Conteúdo")
         st.header(' ')
         campanha_brief = st.text_area("Briefing criativo:", help="Descreva objetivos, tom de voz e especificações", height=150)
