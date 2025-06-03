@@ -704,28 +704,36 @@ with tab_briefing:
 
     with tab_geracao:
         st.header("Criação de Conteúdo")
-        st.header(' ')
+        st.markdown("&nbsp;", help="Spacer")  # Replaces empty header with accessible spacer
         
         # Add briefing selection dropdown at the top
         collection_briefings = client2.briefings_Positivo_Tecnologia.briefings
         saved_briefings = list(collection_briefings.find().sort("data_criacao", -1).limit(50))
         
+        # Create a unique key for the selectbox based on the tab
         selected_briefing = st.selectbox(
             "Selecione um briefing salvo (opcional):",
-            ["Criar novo briefing"] + [f"{b['tipo']} - {b['nome_projeto']}" for b in saved_briefings]
+            ["Criar novo briefing"] + [f"{b['tipo']} - {b['nome_projeto']}" for b in saved_briefings],
+            key="briefing_selector"
         )
         
         # Initialize with empty or selected briefing content
         default_brief = ""
         if selected_briefing != "Criar novo briefing":
-            selected_brief = next(b for b in saved_briefings if f"{b['tipo']} - {b['nome_projeto']}" == selected_briefing)
-            default_brief = selected_brief['conteudo']
+            try:
+                selected_brief = next(b for b in saved_briefings if f"{b['tipo']} - {b['nome_projeto']}" == selected_briefing)
+                default_brief = selected_brief['conteudo']
+            except StopIteration:
+                st.warning("Briefing selecionado não encontrado")
+                default_brief = ""
         
+        # Create a unique key for the text_area
         campanha_brief = st.text_area(
             "Briefing criativo:", 
             value=default_brief,
             help="Descreva objetivos, tom de voz e especificações", 
-            height=150
+            height=150,
+            key="campanha_brief_textarea"
         )
         
         col1, col2 = st.columns(2)
