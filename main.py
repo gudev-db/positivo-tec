@@ -690,7 +690,7 @@ with tab_briefing:
                 except Exception as e:
                     st.error(f"Erro ao gerar briefing")
 
-       with tab_geracao:
+    with tab_geracao:
         st.header("Criação de Conteúdo")
         st.header(' ')
         
