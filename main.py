@@ -185,65 +185,53 @@ with tab_aprovacao:
                 st.markdown(resposta.text)
 
 with tab_geracao:
-    st.header("Criação de Conteúdo")
-    st.markdown("&nbsp;", help="Spacer")  # Replaces empty header with accessible spacer
+        st.header("Criação de Conteúdo")
+        st.header(' ')
+        campanha_brief = st.text_area("Briefing criativo:", help="Descreva objetivos, tom de voz e especificações", height=150)
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Diretrizes Visuais")
     
-    # Add briefing selection dropdown at the top
-    collection_briefings = client2.briefings_Positivo_Tecnologia.briefings
-    saved_briefings = list(collection_briefings.find().sort("data_criacao", -1).limit(50))
-    
-    # Create a unique key for the selectbox based on the tab
-    selected_briefing = st.selectbox(
-        "Selecione um briefing salvo (opcional):",
-        ["Criar novo briefing"] + [f"{b['tipo']} - {b['nome_projeto']}" for b in saved_briefings],
-        key="briefing_selector"
-    )
-    
-    # Initialize with empty or selected briefing content
-    default_brief = ""
-    if selected_briefing != "Criar novo briefing":
-        try:
-            selected_brief = next(b for b in saved_briefings if f"{b['tipo']} - {b['nome_projeto']}" == selected_briefing)
-            default_brief = selected_brief['conteudo']
-        except StopIteration:
-            st.warning("Briefing selecionado não encontrado")
-            default_brief = ""
-    
-    # Create a unique key for the text_area
-    campanha_brief = st.text_area(
-        "Briefing criativo:", 
-        value=default_brief,
-        help="Descreva objetivos, tom de voz e especificações", 
-        height=150,
-        key="campanha_brief_textarea"
-    )
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Diretrizes Visuais")
-
-        if st.button("Gerar Especificações", key="gen_visual"):
-            if not campanha_brief.strip():
-                st.warning("Por favor, insira um briefing criativo primeiro")
-            else:
+            if st.button("Gerar Especificações", key="gen_visual"):
                 with st.spinner('Criando guia de estilo...'):
                     prompt = f"""
-                    [SEU PROMPT EXISTENTE AQUI]
+                    Você é um designer que trabalha para a Macfor Marketing digital e você deve gerar conteúdo criativo para o cliente Positivo_Tecnologia.
+    
+                    Crie um manual técnico para designers baseado em:
+                    Brief: {campanha_brief}
+                    Diretrizes: {conteudo}
+    
+    
+                    Inclua:
+                    1. 🎨 Paleta de cores (códigos HEX/RGB)
+                    2. 🖼️ Diretrizes de fotografia
+                    3. ✏️ Tipografia hierárquica
+                    4. 📐 Grid e proporções
+                    5. ⚠️ Restrições de uso
+                    6. Descrição exata e palpável da imagem a ser utilizada no criativo que atenda a todas as guias acima
                     """
                     resposta = modelo_texto.generate_content(prompt)
                     st.markdown(resposta.text)
-
-    with col2:
-        st.subheader("Copywriting")
-
-        if st.button("Gerar Textos", key="gen_copy"):
-            if not campanha_brief.strip():
-                st.warning("Por favor, insira um briefing criativo primeiro")
-            else:
+    
+        with col2:
+            st.subheader("Copywriting")
+    
+            if st.button("Gerar Textos", key="gen_copy"):
                 with st.spinner('Desenvolvendo conteúdo textual...'):
                     prompt = f"""
-                    [SEU PROMPT EXISTENTE AQUI]
+                    Crie textos para campanha considerando:
+                    Brief: {campanha_brief}
+                    Diretrizes: {conteudo}
+    
+    
+                    
+                    Entregar:
+                    - 🎯 3 opções de headline
+                    - 📝 Corpo de texto (200 caracteres)
+                    - 📢 2 variações de CTA
+                    - 🔍 Meta description (SEO)
                     """
                     resposta = modelo_texto.generate_content(prompt)
                     st.markdown(resposta.text)
@@ -704,36 +692,28 @@ with tab_briefing:
 
     with tab_geracao:
         st.header("Criação de Conteúdo")
-        st.markdown("&nbsp;", help="Spacer")  # Replaces empty header with accessible spacer
+        st.header(' ')
         
         # Add briefing selection dropdown at the top
         collection_briefings = client2.briefings_Positivo_Tecnologia.briefings
         saved_briefings = list(collection_briefings.find().sort("data_criacao", -1).limit(50))
         
-        # Create a unique key for the selectbox based on the tab
         selected_briefing = st.selectbox(
             "Selecione um briefing salvo (opcional):",
-            ["Criar novo briefing"] + [f"{b['tipo']} - {b['nome_projeto']}" for b in saved_briefings],
-            key="briefing_selector"
+            ["Criar novo briefing"] + [f"{b['tipo']} - {b['nome_projeto']}" for b in saved_briefings]
         )
         
         # Initialize with empty or selected briefing content
         default_brief = ""
         if selected_briefing != "Criar novo briefing":
-            try:
-                selected_brief = next(b for b in saved_briefings if f"{b['tipo']} - {b['nome_projeto']}" == selected_briefing)
-                default_brief = selected_brief['conteudo']
-            except StopIteration:
-                st.warning("Briefing selecionado não encontrado")
-                default_brief = ""
+            selected_brief = next(b for b in saved_briefings if f"{b['tipo']} - {b['nome_projeto']}" == selected_briefing)
+            default_brief = selected_brief['conteudo']
         
-        # Create a unique key for the text_area
         campanha_brief = st.text_area(
             "Briefing criativo:", 
             value=default_brief,
             help="Descreva objetivos, tom de voz e especificações", 
-            height=150,
-            key="campanha_brief_textarea"
+            height=150
         )
         
         col1, col2 = st.columns(2)
