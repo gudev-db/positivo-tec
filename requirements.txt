@@ -26,8 +26,6 @@ click==8.1.7
 cohere==5.11.4
 colorama==0.4.6
 coloredlogs==15.0.1
-crewai==0.80.0
-crewai-tools==0.14.0
 cryptography==43.0.3
 dataclasses-json==0.6.7
 decorator==5.1.1
