@@ -37,7 +37,7 @@ docker==7.1.0
 docstring_parser==0.16
 docx2txt==0.8
 durationpy==0.9
-embedchain==0.1.125
+embedchain
 eval_type_backport==0.2.2
 executing==2.1.0
 fastapi==0.115.5
