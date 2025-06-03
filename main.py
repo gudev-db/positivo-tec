@@ -205,12 +205,13 @@ with tab_geracao:
 
 
                 Inclua:
-                1. 🎨 Paleta de cores (códigos HEX/RGB)
-                2. 🖼️ Diretrizes de fotografia
-                3. ✏️ Tipografia hierárquica
-                4. 📐 Grid e proporções
-                5. ⚠️ Restrições de uso
-                6. Descrição exata e palpável da imagem a ser utilizada no criativo que atenda a todas as guias acima
+                1. 🎨 Paleta de cores (códigos HEX/RGB) alinhada à marca
+                2. 🖼️ Diretrizes de fotografia/ilustração (estilo, composição)
+                3. ✏️ Tipografia hierárquica (títulos, corpo de texto)
+                4. 📐 Grid e proporções recomendadas
+                5. ⚠️ Restrições de uso (o que não fazer)
+                6. 🖌️ Descrição detalhada da imagem principal sugerida
+                7. 📱 Adaptações para diferentes formatos (stories, feed, etc.)
                 """
                 resposta = modelo_texto.generate_content(prompt)
                 st.markdown(resposta.text)
@@ -228,10 +229,10 @@ with tab_geracao:
 
                 
                 Entregar:
-                - 🎯 3 opções de headline
-                - 📝 Corpo de texto (200 caracteres)
-                - 📢 2 variações de CTA
-                - 🔍 Meta description (SEO)
+                - 📝 Legenda principal (com emojis e quebras de linha)
+                - 🏷️ 10 hashtags relevantes (mix de marca, tema e trending)
+                - 🔗 Sugestão de link (se aplicável)
+                - 📢 CTA adequado ao objetivo
                 """
                 resposta = modelo_texto.generate_content(prompt)
                 st.markdown(resposta.text)
