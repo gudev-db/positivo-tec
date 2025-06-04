@@ -184,6 +184,10 @@ with tab_aprovacao:
                 st.subheader("Versão Validada")
                 st.markdown(resposta.text)
 
+
+
+
+
 with tab_geracao:
     st.header("Criação de Conteúdo")
     st.header(' ')
