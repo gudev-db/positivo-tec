@@ -395,29 +395,29 @@ with tab_briefing:
             
         # ========== SOCIAL ==========
         if tipo_briefing == "Post único":
-            campos_briefing['especificos']['fotos'] = criar_campo_selecionavel("Fotos necessárias:")
-            campos_briefing['especificos']['texto'] = criar_campo_selecionavel("Texto do post:")
-            campos_briefing['especificos']['expectativa'] = criar_campo_selecionavel("Expectativa de resultado:")
-            campos_briefing['especificos']['tom_voz'] = criar_campo_selecionavel("Tom de voz:", "selectbox", 
+            campos_briefing['especificos']['fotos'] = criar_campo_selecionavel("Sugestão de Fotos necessárias:")
+            campos_briefing['especificos']['texto'] = criar_campo_selecionavel("Sugestão de Texto do post:")
+            campos_briefing['especificos']['expectativa'] = criar_campo_selecionavel("Sugestão de Expectativa de resultado:")
+            campos_briefing['especificos']['tom_voz'] = criar_campo_selecionavel("Sugestão de Tom de voz:", "selectbox", 
                                                                                ["Institucional", "Inspiracional", "Educativo", "Promocional"])
-            campos_briefing['especificos']['direcionamento_arte'] = criar_campo_selecionavel("Direcionamento para a arte (KV):")
-            campos_briefing['especificos']['palavras_chave'] = criar_campo_selecionavel("Palavras/conceitos-chave:")
-            campos_briefing['especificos']['do_donts'] = criar_campo_selecionavel("Do's and Don'ts:")
-            campos_briefing['especificos']['referencias'] = criar_campo_selecionavel("Referências:")
-            campos_briefing['especificos']['materiais_extras'] = criar_campo_selecionavel("Materiais extras:")
-            campos_briefing['especificos']['info_sensiveis'] = criar_campo_selecionavel("Informações sensíveis:")
+            campos_briefing['especificos']['direcionamento_arte'] = criar_campo_selecionavel("Sugestão de Direcionamento para a arte (KV):")
+            campos_briefing['especificos']['palavras_chave'] = criar_campo_selecionavel("Sugestão de Palavras/conceitos-chave:")
+            campos_briefing['especificos']['do_donts'] = criar_campo_selecionavel("Sugestão de Do's and Don'ts:")
+            campos_briefing['especificos']['referencias'] = criar_campo_selecionavel("Sugestão de Referências:")
+            campos_briefing['especificos']['materiais_extras'] = criar_campo_selecionavel("Sugestão de Materiais extras:")
+            campos_briefing['especificos']['info_sensiveis'] = criar_campo_selecionavel("Sugestão de Informações sensíveis:")
             
             if st.checkbox("É sobre produtos?"):
-                campos_briefing['especificos']['produtos_destaque'] = criar_campo_selecionavel("Produtos para destacar:")
+                campos_briefing['especificos']['produtos_destaque'] = criar_campo_selecionavel("Sugestão de Produtos para destacar:")
         
         elif tipo_briefing == "Planejamento Mensal":
-            campos_briefing['especificos']['eventos_mes'] = criar_campo_selecionavel("Eventos do mês:")
-            campos_briefing['especificos']['datas_comemorativas'] = criar_campo_selecionavel("Datas/comemorações:")
-            campos_briefing['especificos']['expectativa_mensal'] = criar_campo_selecionavel("Expectativa de resultados:")
-            campos_briefing['especificos']['planejamento_conteudos'] = criar_campo_selecionavel("Conteúdos planejados:")
-            campos_briefing['especificos']['produtos_temas'] = criar_campo_selecionavel("Produtos/temas técnicos:")
-            campos_briefing['especificos']['planejamento_anual'] = criar_campo_selecionavel("Planejamento anual aprovado:", "file_uploader")
-            campos_briefing['especificos']['manuais'] = criar_campo_selecionavel("Manuais de conteúdo disponíveis:")
+            campos_briefing['especificos']['eventos_mes'] = criar_campo_selecionavel("Sugestão de Eventos do mês:")
+            campos_briefing['especificos']['datas_comemorativas'] = criar_campo_selecionavel("Sugestão de Datas/comemorações:")
+            campos_briefing['especificos']['expectativa_mensal'] = criar_campo_selecionavel("Sugestão de Expectativa de resultados:")
+            campos_briefing['especificos']['planejamento_conteudos'] = criar_campo_selecionavel("Sugestão de Conteúdos planejados:")
+            campos_briefing['especificos']['produtos_temas'] = criar_campo_selecionavel("Sugestão de Produtos/temas técnicos:")
+            campos_briefing['especificos']['planejamento_anual'] = criar_campo_selecionavel("Sugestão de Planejamento anual aprovado:", "file_uploader")
+            campos_briefing['especificos']['manuais'] = criar_campo_selecionavel("Sugestão de Manuais de conteúdo disponíveis:")
         
         # ========== CRM ==========
         elif tipo_briefing == "Planejamento de CRM":
@@ -728,13 +728,59 @@ with tab_briefing:
                         "obervacoes": obs,
                     }
                     collection_briefings.insert_one(briefing_data)
+
+                    resposta_design_apr = modelo_texto.generate_content(
+                    f"""Revise este texto conforme:
+                    ###BEGIN DIRETRIZES DE MARCA###
+                    {conteudo}
+                    ###END DIRETRIZES DE MARCA###
+
+                    ###BEGIN TEXTO A SER ANALISADO###
+                    {resposta_copy}
+                    ###END TEXTO A SER ANALISADO###
+                    
+                    Formato requerido:
+                    ### Texto Ajustado
+                    [versão reformulada]
+                    
+                    ### Alterações Realizadas
+                    - [lista itemizada de modificações]
+                    ### Justificativas
+                    [explicação técnica das mudanças]"""
+                )
+
+                    resposta_apr_copy = modelo_texto.generate_content(
+                    f"""Revise este texto conforme:
+                    ###BEGIN DIRETRIZES DE MARCA###
+                    {conteudo}
+                    ###END DIRETRIZES DE MARCA###
+
+                    ###BEGIN IDEAÇÃO DE DESIGN A SER ANALISADO###
+                    {resposta_design}
+                    ###END IDEAÇÃO DE DESIGN A SER ANALISADO###
+                    
+                    Formato requerido:
+                    ### Design Ajustado
+                    [versão reformulada]
+                    
+                    ### Alterações Realizadas
+                    - [lista itemizada de modificações]
+                    ### Justificativas
+                    [explicação técnica das mudanças]"""
+                )
+                    st.subheader("Versão Validada")
+                    st.markdown(resposta.text)
                     
                     st.subheader(f"1. Briefing {tipo_briefing} - {campos_briefing['basicos']['nome_projeto']}")
                     st.markdown(resposta.text)
                     st.subheader("2. Ideação de design")
                     st.markdown(resposta_design.text)
-                    st.subheader("3. Copywriting")
+                    st.subheader("3. Aprovação de Ideação de design")
+                    st.markdown(resposta_design_apr.text)
+                    st.subheader("4. Copywriting")
                     st.markdown(resposta_copy.text)
+                    st.subheader("5.Aprovação de Copywriting")
+                    st.markdown(resposta_apr_copy.text)
                                 
                     st.download_button(
                         label="📥 Download do Briefing",
