@@ -667,6 +667,53 @@ with tab_briefing:
                     
                     prompt = "\n".join(prompt_parts)
                     resposta = modelo_texto.generate_content(prompt)
+
+                    prompt_design = f"""
+                    Você é um designer que trabalha para a Macfor Marketing digital e você deve gerar conteúdo criativo para o cliente Positivo_Tecnologia.
+    
+                    Crie um manual técnico para designers baseado em:
+                    ###BEGIN BRIEFING###
+                    {resposta}
+                    ###END BRIEFING###
+                    
+                    ###BEGIN DIRETRIZES DE MARCA###
+                    {conteudo}
+                    ###END DIRETRIZES DE MARCA###
+    
+    
+                    Inclua:
+                    1. 🎨 Paleta de cores (códigos HEX/RGB) alinhada à marca
+                    2. 🖼️ Diretrizes de fotografia/ilustração (estilo, composição)
+                    3. ✏️ Tipografia hierárquica (títulos, corpo de texto)
+                    4. 📐 Grid e proporções recomendadas
+                    5. ⚠️ Restrições de uso (o que não fazer)
+                    6. 🖌️ Descrição detalhada da imagem principal sugerida
+                    7. 📱 Adaptações para diferentes formatos (stories, feed, etc.)
+                    """
+                    resposta_design = modelo_texto.generate_content(prompt_design)
+
+                    prompt_copy = f"""
+                    Crie textos para campanha considerando:
+                    ###BEGIN BRIEFING###
+                    {resposta}
+                    ###END BRIEFING###
+                    
+                    ###BEGIN DIRETRIZES DE MARCA###
+                    {conteudo}
+                    ###END DIRETRIZES DE MARCA###
+
+                    ###BEGIN DIRETRIZES DE DESIGN###
+                    {resposta_design}
+                    ###END DIRETRIZES DE DESIGN###
+           
+                    Entregar:
+                    - 📝 Legenda principal (com emojis e quebras de linha)
+                    - 🏷️ 10 hashtags relevantes (mix de marca, tema e trending)
+                    - 🔗 Sugestão de link (se aplicável)
+                    - 📢 CTA adequado ao objetivo
+                    """
+                    resposta_copy = modelo_texto.generate_content(prompt_copy)
+                    
                     
                     # Salvar no MongoDB
                     briefing_data = {
@@ -682,8 +729,12 @@ with tab_briefing:
                     }
                     collection_briefings.insert_one(briefing_data)
                     
-                    st.subheader(f"Briefing {tipo_briefing} - {campos_briefing['basicos']['nome_projeto']}")
+                    st.subheader(f"1. Briefing {tipo_briefing} - {campos_briefing['basicos']['nome_projeto']}")
                     st.markdown(resposta.text)
+                    st.subheader("2. Ideação de design")
+                    st.markdown(resposta_design.text)
+                    st.subheader("3. Copywriting")
+                    st.markdown(resposta_copy.text)
                                 
                     st.download_button(
                         label="📥 Download do Briefing",
