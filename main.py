@@ -734,12 +734,12 @@ with tab_briefing:
                     {conteudo}
                     ###END DIRETRIZES DE MARCA###
 
-                    ###BEGIN TEXTO A SER ANALISADO###
-                    {resposta_copy}
-                    ###END TEXTO A SER ANALISADO###
+                    ###BEGIN DESIGN A SER ANALISADO###
+                    {resposta_design}
+                    ###END DESIGN A SER ANALISADO###
                     
                     Formato requerido:
-                    ### Texto Ajustado
+                    ### Design Ajustado
                     [versão reformulada]
                     
                     ### Alterações Realizadas
@@ -754,12 +754,12 @@ with tab_briefing:
                     {conteudo}
                     ###END DIRETRIZES DE MARCA###
 
-                    ###BEGIN IDEAÇÃO DE DESIGN A SER ANALISADO###
-                    {resposta_design}
-                    ###END IDEAÇÃO DE DESIGN A SER ANALISADO###
+                    ###BEGIN TEXTO A SER ANALISADO###
+                    {resposta_copy}
+                    ###END TEXTO A SER ANALISADO###
                     
                     Formato requerido:
-                    ### Design Ajustado
+                    ### Texto Ajustado
                     [versão reformulada]
                     
                     ### Alterações Realizadas
