@@ -480,7 +480,7 @@ with tab_briefing:
                 campos_briefing['especificos']['etapa_funil'] = criar_campo_selecionavel("Etapa do funil:", "selectbox", 
                                                                                       ["Topo", "Meio", "Fundo"])
                 campos_briefing['especificos']['canais_fluxo'] = criar_campo_selecionavel("Canais para divulgação")
-                        elif tipo_briefing == "Fluxo de Nutrição":
+            elif tipo_briefing == "Fluxo de Nutrição":
                 campos_briefing['especificos']['gatilho'] = criar_campo_selecionavel("Gatilho de entrada:")
                 campos_briefing['especificos']['asset_relacionado'] = criar_campo_selecionavel("Asset/evento relacionado:")
                 campos_briefing['especificos']['etapa_funil'] = criar_campo_selecionavel("Etapa do funil:", "selectbox", 
